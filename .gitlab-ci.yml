@@ -1,0 +1,29 @@
+image: node:8
+
+stages:
+  - development
+  - production
+
+development:
+  stage: development
+  script:
+    - npm install
+    - tar czf /tmp/artifact.tar.gz  .
+    - bash scripts/deploy.sh
+    - echo Build Project Complete
+  only:
+    - develop
+
+production:
+  stage: production
+  script:
+    - npm install
+    - npx gulp build
+    - cd dist && npm install && cd ..
+    - export NODE_ENV=production
+    - tar czf /tmp/artifact.tar.gz -C dist/ .
+    - bash scripts/deploy.sh
+    - echo Build Project Complete
+  when: manual
+  only:
+    - master

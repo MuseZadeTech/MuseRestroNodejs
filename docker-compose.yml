@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  backapi:
+    image: registry.gitlab.com/alanapp/api/production
+    ports:
+     - "8080:8080"
+    restart: always
+    environment:
+     - NODE_ENV=production
